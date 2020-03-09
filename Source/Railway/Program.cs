@@ -6,16 +6,25 @@ namespace Railway
     {
         static void Main(string[] args)
         {
-            ObjectBuilder.TrainMapper();
-            
-            foreach(var element in ObjectBuilder.Trains)
+
+            ObjectBuilder.BuildAll();
+
+            foreach (var element in ObjectBuilder.Stations)
             {
                 Console.WriteLine($"{element.ID} : {element.Name}");
             }
 
-            ObjectBuilder.StationMapper();
+            foreach (var element in ObjectBuilder.Trains)
+            {
+                Console.WriteLine($"{element.ID} : {element.Name}");
+            }
 
-            foreach (var element in ObjectBuilder.Stations)
+            foreach (var element in ObjectBuilder.TimeTables)
+            {
+                Console.WriteLine($"{element.TrainID} : {element.StationID} : {element.ArrivalTime}");
+            }
+
+            foreach (var element in ObjectBuilder.Passengers)
             {
                 Console.WriteLine($"{element.ID} : {element.Name}");
             }
