@@ -6,7 +6,12 @@ namespace Railway
     {
         static void Main(string[] args)
         {
-
+            TrainBuilder.TrainMapper();
+            
+            foreach(var element in TrainBuilder.Trains)
+            {
+                Console.WriteLine($"{element.ID} : {element.Name}");
+            }
         }
     }
 }

@@ -34,7 +34,6 @@ namespace RailwayTests
             //Assert
 
             Assert.Equal(expectation, result);
-
         }
     }
 
