@@ -11,9 +11,9 @@ namespace Railway
         public string Name { get; set; }
         public int MaxSpeed { get; set; }
         public bool Operated { get; set; }
-        public Station LastVisitedStation { get; set; }
+        public Station CurrentStation { get; set; }
         public Station ArrivingStation { get; set; }
-        public List<TimeTable> OperationInstructions { get; }
+        public List<TimeTable> OperationInstructions { get; set; }
 
         public Train(int id, string name, int maxspeed, bool operated) 
         {
@@ -23,9 +23,19 @@ namespace Railway
             this.Operated = operated;
         }
 
-        public void AddRouteInstruction(TimeTable instruction)
+        public void AddRouteInstruction(List<TimeTable> instructions)
         {
-            OperationInstructions.Add(instruction);
+            
+            OperationInstructions = instructions.Where(i => i.TrainID == this.ID).ToList();
+
+        }
+
+        public void ExcecuteInstruction()
+        {
+            foreach (var instruction in OperationInstructions)
+            {   
+                   Console.WriteLine("Train is departing from current Station)
+            }
         }
     }
 }
