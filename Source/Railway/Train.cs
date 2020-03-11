@@ -10,8 +10,8 @@ namespace Railway
         public string Name { get; set; }
         public int MaxSpeed { get; set; }
         public bool Operated { get; set; }
-        
-
+        public Station LastVisitedStation { get; set; }
+        public Station ArrivingStation { get; set; }
 
         public Train(int id, string name, int maxspeed, bool operated) 
         {
