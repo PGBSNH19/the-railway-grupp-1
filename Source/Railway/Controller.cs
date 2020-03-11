@@ -20,6 +20,14 @@ namespace Railway
             this.Passengers = ObjectBuilder.Passengers;
         }
 
+        public void MoveTrainTo(Train train, Station station)
+        {
+            station.OccupyingTrainID = train.ID;
+            train.AtStationID = station.ID;
+        }
+
+
+
 
 
     }

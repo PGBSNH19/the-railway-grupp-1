@@ -6,8 +6,13 @@ namespace Railway
 {
     public class Instruction
     {
-        public int ArrivalStationID { get; set; }
+        public int ArrivalStationID { get; }
+        public DateTime ArrivalTime { get; }
 
-
+        public Instruction(int stnID, DateTime arrivalTime)
+        {
+            this.ArrivalStationID = stnID;
+            this.ArrivalTime = arrivalTime;
+        }
     }
 }
