@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Railway
 {
@@ -12,6 +13,7 @@ namespace Railway
         public bool Operated { get; set; }
         public Station LastVisitedStation { get; set; }
         public Station ArrivingStation { get; set; }
+        public List<TimeTable> OperationInstructions { get; }
 
         public Train(int id, string name, int maxspeed, bool operated) 
         {
@@ -19,6 +21,11 @@ namespace Railway
             this.Name = name;
             this.MaxSpeed = maxspeed;
             this.Operated = operated;
+        }
+
+        public void AddRouteInstruction(TimeTable instruction)
+        {
+            OperationInstructions.Add(instruction);
         }
     }
 }
