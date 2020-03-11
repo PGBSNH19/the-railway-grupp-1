@@ -12,7 +12,6 @@ namespace Railway
         public int MaxSpeed { get; set; }
         public bool Operated { get; set; }
         public int AtStationID { get; set; }
-        public int NextSTationID { get; set; }
         public List<TimeTable> OperationInstructions { get; set; }
 
         public Train(int id, string name, int maxspeed, bool operated) 
@@ -27,16 +26,22 @@ namespace Railway
         {            
             OperationInstructions = instructions.Where(i => i.TrainID == this.ID).ToList();
             AtStationID = OperationInstructions[0].StationID;
-            NextSTationID = OperationInstructions[1].StationID;
-
         }
 
         public void ExcecuteInstruction()
         {
             foreach (var instruction in OperationInstructions)
             {
-                Console.WriteLine($"Train is departing from {AtStationID}");
-                Console.WriteLine($"Train is arriving at {NextSTationID}");
+                Console.WriteLine($"Train {ID} : {Name} is departing from {AtStationID}");
+                Console.WriteLine($"Train {ID} : {Name} is arriving at {instruction.StationID}");
+                AtStationID = instruction.StationID;
+            }
+            for (int i = 0; i < OperationInstructions.Count; i++)
+            {
+                
+                Console.WriteLine($"Train {ID} : {Name} is departing from {AtStationID}");
+                Console.WriteLine($"Train {ID} : {Name} is arriving at {AtStationID[i + 1]}");
+                AtStationID = instruction.StationID;
             }
         }
     }

@@ -12,6 +12,8 @@ namespace Railway
             
             controller.Trains[1].AddRouteInstructions(controller.TimeTables);
             controller.Trains[1].ExcecuteInstruction();
+            controller.Trains[2].AddRouteInstructions(controller.TimeTables);
+            controller.Trains[2].ExcecuteInstruction();
         }
     }
 }
