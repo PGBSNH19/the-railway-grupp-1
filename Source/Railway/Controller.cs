@@ -27,20 +27,5 @@ namespace Railway
             station.OccupyingTrainID = train.ID;
             train.AtStationID = station.ID;
         }
-
-        public void clock()
-        {
-            Timer timer = new Timer(1000);
-            
-            timer.Elapsed += upDateClock;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-            timer.Start();
-        }
-
-        public void upDateClock(object source, ElapsedEventArgs e)
-        {
-            Console.WriteLine("Hej Hampus");
-        }
     }
 }
