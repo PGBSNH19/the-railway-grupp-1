@@ -40,8 +40,12 @@ namespace Railway
             {
                 
                 Console.WriteLine($"Train {ID} : {Name} is departing from {AtStationID}");
-                Console.WriteLine($"Train {ID} : {Name} is arriving at {AtStationID[i + 1]}");
-                AtStationID = instruction.StationID;
+                if(OperationInstructions.Count > i+1)
+                {
+                Console.WriteLine($"Train {ID} : {Name} is arriving at {OperationInstructions[i+1]}");
+
+                }
+                AtStationID = OperationInstructions[i].StationID;
             }
         }
     }
