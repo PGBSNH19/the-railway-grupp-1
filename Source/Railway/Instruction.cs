@@ -14,5 +14,7 @@ namespace Railway
             this.ArrivalStationID = stnID;
             this.ArrivalTime = arrivalTime;
         }
+
+
     }
 }

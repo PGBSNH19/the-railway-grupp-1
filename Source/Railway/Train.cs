@@ -11,7 +11,7 @@ namespace Railway
         public string Name { get; set; }
         public int MaxSpeed { get; set; }
         public bool Operated { get; set; }        
-        public List<TimeTable> OperationInstructions { get; set; }
+        public List<TimeTable> Routes { get; set; }
         public int AtStationID { get; set; }
 
         public Train(int id, string name, int maxspeed, bool operated) 
@@ -22,14 +22,22 @@ namespace Railway
             this.Operated = operated;
         }
 
-        public void AddRouteInstruction(Instruction instruction)
+        public void AddRouteInstruction(List<TimeTable> routes)
         {            
-
+            foreach(var route in routes)
+            {
+                if(route.TrainID == this.ID)
+                {
+                    Routes.Add(route);
+                }
+            }
         }
 
         public void ExcecuteInstruction()
         {
-
+            this.AtStationID = Routes[0].StationID;
+            Console.WriteLine(AtStationID);
+            Routes.Remove(Routes[0]);
         }
     }
 }

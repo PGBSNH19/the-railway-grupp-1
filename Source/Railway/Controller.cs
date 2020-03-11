@@ -26,9 +26,5 @@ namespace Railway
             train.AtStationID = station.ID;
         }
 
-
-
-
-
     }
 }
