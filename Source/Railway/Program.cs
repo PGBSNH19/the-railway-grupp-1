@@ -13,9 +13,7 @@ namespace Railway
             // Thread train1 = new Thread();
 
             controller.Trains[1].AddRouteInstruction(controller.TimeTables);
-            controller.Trains[1].ExcecuteInstruction();
-
-
+            controller.Trains[1].ExcecuteAllInstructions();
         }
     }
 }
