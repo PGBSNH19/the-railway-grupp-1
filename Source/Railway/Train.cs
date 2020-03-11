@@ -56,7 +56,7 @@ namespace Railway
                 {
                     Console.WriteLine($"Train {this.Name} departing from {AtStationID} {DateTime.Now.ToString("HH:mm")}");
                     AtStationID = -1;                    
-                }
+                }   
                 if (Routes[0].ArrivalTime <= DateTime.Now)
                 {
                     this.AtStationID = Routes[0].StationID;

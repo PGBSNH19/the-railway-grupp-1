@@ -14,6 +14,8 @@ namespace Railway
 
             controller.Trains[1].AddRouteInstruction(controller.TimeTables);
             controller.Trains[1].ExcecuteAllInstructions();
+
+            controller.clock();
         }
     }
 }
