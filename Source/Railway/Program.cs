@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 namespace Railway
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            Thread time = new Thread(new ThreadStart(ObjectBuilder.BuildAll));
-            time.Start();
-            
-            ObjectBuilder.BuildAll();
             Controller controller = new Controller();
-            // Thread train1 = new Thread();
-            Console.WriteLine(controller.Stations[0].Name);
-            controller.Trains[1].AddRouteInstruction(controller.TimeTables);
-            controller.Trains[1].ExcecuteAllInstructions();
+            ObjectBuilder.BuildAll();
+            DateTime startTime = new DateTime();
+            startTime = startTime.Date + new TimeSpan(10, 15, 0);
+
+            ClockSimulator sim = new ClockSimulator(startTime, 100, 60);
+            sim.StartClock();
+
+            controller.OperateTrain(2, sim);
+            controller.OperateTrain(3, sim);
         }
     }
 }

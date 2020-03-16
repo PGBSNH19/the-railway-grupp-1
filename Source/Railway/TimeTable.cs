@@ -4,18 +4,20 @@ using System.Text;
 
 namespace Railway
 {
-   public class TimeTable
+    public class TimeTable
     {
         public int TrainID { get; }
-        public int StationID { get;}
+        public int DepStationID { get; }
         public DateTime DepartureTime { get; }
+        public int ArrStationID { get; }
         public DateTime ArrivalTime { get; }
 
-        public TimeTable(int trainId, int stationId, DateTime departureTime, DateTime arrivalTime)
+        public TimeTable(int trainId, int depStationId, DateTime departureTime, int arrStationId, DateTime arrivalTime)
         {
             this.TrainID = trainId;
-            this.StationID = stationId;
+            this.DepStationID = depStationId;
             this.DepartureTime = departureTime;
+            this.ArrStationID = arrStationId;
             this.ArrivalTime = arrivalTime;
         }
     }

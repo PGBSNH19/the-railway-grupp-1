@@ -12,8 +12,10 @@ namespace Railway
         public string Name { get; set; }
         public int MaxSpeed { get; set; }
         public bool Operated { get; set; }
+        public bool IsRunning { get; set; }
         public List<TimeTable> Routes { get; set; } = new List<TimeTable>();
         public int AtStationID { get; set; }
+        public List<string> TrainLog { get; } = new List<string>();
 
         public Train(int id, string name, int maxspeed, bool operated) 
         {
@@ -21,51 +23,60 @@ namespace Railway
             this.Name = name;
             this.MaxSpeed = maxspeed;
             this.Operated = operated;
+            TrainLog.Add("Ready to recieve instructions...");
         }
 
         public void AddRouteInstruction(List<TimeTable> routes)
-        {            
-            foreach(var route in routes)
+        {
+            foreach (var route in routes)
             {
-                if(route.TrainID == this.ID)
+                if (route.TrainID == this.ID)
                 {
-                    Routes.Add(route);
+                    if (Routes.Any())
+                    {
+                        Routes.Add(route);
+                    }
+                    else
+                    {
+                        Routes.Add(route);
+                        AtStationID = Routes[0].DepStationID;
+                    }
                 }
             }
         }
 
-        public void ExcecuteSingleInstruction()
+        private void Depart()
+        {
+            AtStationID = -1;
+            IsRunning = true;
+        }
+
+        private void Arrive(int stationID)
+        {
+            AtStationID = stationID;
+            IsRunning = false;
+        }
+
+        public void ExcecuteSingleInstruction(DateTime time)
         {
             if (Routes.Any())
             {
-                this.AtStationID = Routes[0].StationID;
-                Console.WriteLine(AtStationID);
-                Routes.Remove(Routes[0]);
+                if (time.TimeOfDay >= Routes[0].DepartureTime.TimeOfDay && !IsRunning)
+                {
+                    TrainLog.Add($"{time.ToShortTimeString()} : Departing station {AtStationID} for {Routes[0].ArrStationID}.");
+                    Depart();
+                }
+                else if (time.TimeOfDay >= Routes[0].ArrivalTime.TimeOfDay && IsRunning)
+                {
+                    Arrive(Routes[0].ArrStationID);
+                    TrainLog.Add($"{time.ToShortTimeString()} : Arriving at station {AtStationID}.");
+                    Routes.Remove(Routes[0]);
+                }
             }
             else
             {
-                Console.WriteLine($"Train {this.Name} reached end destination and have no further instructions.");
+                TrainLog.Add("Awaiting further instructions...");
             }
-        }
-
-        public void ExcecuteAllInstructions()
-        {
-            while (Routes.Any())
-            {
-                if (Routes[0].DepartureTime >= DateTime.Now)
-                {
-                    Console.WriteLine($"Train {this.Name} departing from {AtStationID} {DateTime.Now.ToString("HH:mm")}");
-                    AtStationID = -1;                    
-                }   
-                if (Routes[0].ArrivalTime <= DateTime.Now)
-                {
-                    this.AtStationID = Routes[0].StationID;
-                    Console.WriteLine($"Train {this.Name} arriving at {AtStationID} {DateTime.Now.ToString("HH:mm")}");
-                    Routes.Remove(Routes[0]);
-                }
-                
-            }
-            Console.WriteLine($"Train {this.Name} reached end destination and have no further instructions.");
         }
     }
 }

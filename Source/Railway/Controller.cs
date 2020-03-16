@@ -1,31 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Timers;
+using System.Linq;
+using System.Threading;
 
 namespace Railway
 {
-    //Carlos
+    //Han heter Carlos
     public class Controller
     {
-        public List<Train> Trains { get; } = new List<Train>();
-        public List<Station> Stations { get; } = new List<Station>();
-        public List<TimeTable> TimeTables { get; } = new List<TimeTable>();
-        public List<Passenger> Passengers { get; } = new List<Passenger>();
-
-
-        public Controller()
+        public void OperateTrain(int trainID, ClockSimulator clock)
         {
-            this.Trains = ObjectBuilder.Trains;
-            this.Stations = ObjectBuilder.Stations;
-            this.TimeTables = ObjectBuilder.TimeTables;
-            this.Passengers = ObjectBuilder.Passengers;
+            Train train = ObjectBuilder.Trains.First(t => t.ID == trainID);
+            train.AddRouteInstruction(ObjectBuilder.TimeTables);
+            Thread trainThr = new Thread(() => StartTrain(train, clock));
+            trainThr.Start();
         }
 
-        public void MoveTrainTo(Train train, Station station)
+        public void StartTrain(Train train, ClockSimulator clockSim)
         {
-            station.OccupyingTrainID = train.ID;
-            train.AtStationID = station.ID;
-        }
+            string lastLogMessage = "";
+           
+           
+            while (true)
+            {
+                if (train.Routes.Any())
+                {
+                    if (train.TrainLog.Last() != lastLogMessage)
+                    {
+                        Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
+                        lastLogMessage = train.TrainLog.Last();
+                    }
+                    else
+                    {
+                        train.ExcecuteSingleInstruction(clockSim.GetTime());
+                        Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
+                        
+                    }
+                }
+               
+               
+
+                train.ExcecuteSingleInstruction(clockSim.GetTime());
+                lastLogMessage = train.TrainLog.Last();
+            }
+
+            
+            //Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
+           // lastLogMessage = train.TrainLog.Last();
+
+       }
     }
 }

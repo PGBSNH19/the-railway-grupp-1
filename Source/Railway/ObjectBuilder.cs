@@ -57,7 +57,7 @@ namespace Railway
             for (int i = 1; i < timeTableData.Length; i++)
             {
                 string[] splitline = timeTableData[i].Split(';', ',', '|');
-                TimeTables.Add(new TimeTable(int.Parse(splitline[0]), int.Parse(splitline[1]), DateTime.Parse(splitline[2]), DateTime.Parse(splitline[3])));
+                TimeTables.Add(new TimeTable(int.Parse(splitline[0]), int.Parse(splitline[1]), DateTime.Parse(splitline[2]), int.Parse(splitline[3]), DateTime.Parse(splitline[4])));
             }
         }
 
