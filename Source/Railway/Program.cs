@@ -15,7 +15,7 @@ namespace Railway
             DateTime startTime = new DateTime();
             startTime = startTime.Date + new TimeSpan(10, 15, 0);
 
-            ClockSimulator sim = new ClockSimulator(startTime, 100, 60);
+            ClockSimulator sim = new ClockSimulator(startTime, 1000, 60);
             sim.StartClock();
 
             controller.OperateTrain(2, sim);
