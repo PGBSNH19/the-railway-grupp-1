@@ -1,0 +1,1 @@
+Occupied,Length,Tswitch,Barrier

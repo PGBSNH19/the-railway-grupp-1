@@ -29,9 +29,7 @@ namespace Railway
                     Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
                     lastLogMessage = train.TrainLog.Last();
                 }
-                train.ExcecuteSingleInstruction(clockSim.GetTime());
-               
-
+                train.ExcecuteSingleInstruction(clockSim.GetTime());              
             }
 
             Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
