@@ -20,9 +20,9 @@ namespace Railway
     {
         public bool IsOpened { get; set; }
 
-        public Barrier(bool isOpened)
+        public Barrier(bool isOpened, bool occupied, int length) : base (occupied, length)
         {
-
+            this.IsOpened = isOpened;
         }
 
     }
@@ -30,5 +30,10 @@ namespace Railway
     public class Switch : Track
     {
         public int PositionedTowards { get; set; }
+
+        public Switch(int positionedTowards, bool occupied, int length) : base(occupied, length)
+        {
+            this.PositionedTowards = positionedTowards;
+        }
     }
 }

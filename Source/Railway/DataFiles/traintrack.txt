@@ -1,1 +1,5 @@
-Occupied,Length,Tswitch,Barrier
+Occupied,Length
+false,30
+false,50
+false,70
+false,60
