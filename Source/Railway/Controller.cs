@@ -20,35 +20,25 @@ namespace Railway
         public void StartTrain(Train train, ClockSimulator clockSim)
         {
             string lastLogMessage = "";
+
            
-           
-            while (true)
+            while (train.Routes.Any())
             {
-                if (train.Routes.Any())
+                if (train.TrainLog.Last() != lastLogMessage)
                 {
-                    if (train.TrainLog.Last() != lastLogMessage)
-                    {
-                        Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
-                        lastLogMessage = train.TrainLog.Last();
-                    }
-                    else
-                    {
-                        train.ExcecuteSingleInstruction(clockSim.GetTime());
-                        Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
-                        
-                    }
+                    Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
+                    lastLogMessage = train.TrainLog.Last();
                 }
-               
+                train.ExcecuteSingleInstruction(clockSim.GetTime());
                
 
-                train.ExcecuteSingleInstruction(clockSim.GetTime());
-                lastLogMessage = train.TrainLog.Last();
             }
 
-            
-            //Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
-           // lastLogMessage = train.TrainLog.Last();
+            Console.WriteLine($"Log {train.Name} : {train.TrainLog.Last()}");
+            train.ExcecuteSingleInstruction(clockSim.GetTime());
+            Console.WriteLine(train.TrainLog.Last());
+            lastLogMessage = train.TrainLog.Last();
 
-       }
+        }
     }
 }
