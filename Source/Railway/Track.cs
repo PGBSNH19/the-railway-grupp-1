@@ -6,12 +6,11 @@ namespace Railway
 {
     public class Track
     {
-        public bool Occupied { get; set; }
-        public int Length { get; set; }        
-
-        public Track(bool occupied, int length) 
+        public int Id { get; set; }
+        public int Length { get; set; }
+        public Track(int id, int length) 
         {
-            this.Occupied = occupied;
+            this.Id = id;
             this.Length = length;            
         }
     }
@@ -20,7 +19,7 @@ namespace Railway
     {
         public bool IsOpened { get; set; }
 
-        public Barrier(bool isOpened, bool occupied, int length) : base (occupied, length)
+        public Barrier(bool isOpened, int id, int length) : base (id, length)
         {
             this.IsOpened = isOpened;
         }
@@ -31,7 +30,7 @@ namespace Railway
     {
         public int PositionedTowards { get; set; }
 
-        public Switch(int positionedTowards, bool occupied, int length) : base(occupied, length)
+        public Switch(int positionedTowards, int id, int length) : base(id, length)
         {
             this.PositionedTowards = positionedTowards;
         }
