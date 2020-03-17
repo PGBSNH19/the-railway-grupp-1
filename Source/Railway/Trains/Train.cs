@@ -1,51 +1,88 @@
 ﻿using System;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
-using System.Threading;
+using System.Text;
 
 namespace Railway
 {
-    public class Train 
+    public class Train
     {
         public int ID { get; set; }
         public string Name { get; set; }
         public int MaxSpeed { get; set; }
         public bool Operated { get; set; }
-        public bool IsRunning { get; set; }
-        public List<TimeTable> Routes { get; set; } = new List<TimeTable>();
-        public int AtStationID { get; set; }
-        public List<string> TrainLog { get; } = new List<string>();
 
-        public Train(int id, string name, int maxspeed, bool operated) 
+        private readonly ILogComponent LogComponent;
+        private readonly IEngineComponent EngineComponent;
+        private readonly IPassengerCartComponent PassengerCartComponent;
+
+        public Train(int id, string name, int maxSpeed, bool operated, ILogComponent trainLog,
+            IEngineComponent engineComponent,
+            IPassengerCartComponent passengerCartComponent)
         {
             this.ID = id;
             this.Name = name;
-            this.MaxSpeed = maxspeed;
+            this.MaxSpeed = maxSpeed;
             this.Operated = operated;
-            TrainLog.Add("Ready to recieve instructions...");
+            this.LogComponent = trainLog;
+            this.EngineComponent = engineComponent;
+            this.PassengerCartComponent = passengerCartComponent;
         }
 
-        public void Start()
+        public void StartTrain()
         {
-            IsRunning = true;
+            EngineComponent.Start();
+            WriteLogEntry("Engine started.");
         }
 
-        public void Stop()
+        public void StopTrain()
         {
-            IsRunning = false;
+            EngineComponent.Stop();
+            WriteLogEntry("Engine stopped.");
         }
 
-        public void Depart()
+        public bool IsRunning()
         {
-            AtStationID = -1;
-            Start();
+            return EngineComponent.IsRunning();
         }
 
-        public void Arrive(int stationID)
+        public void WriteLogEntry(string message)
         {
-            AtStationID = stationID;
-            Stop();
+            LogComponent.WriteToLog(message);
+        }
+
+        public string ReadLogEntry(int index)
+        {
+            return LogComponent.GetEntry(index);
+        }
+
+        public List<string> GetLog()
+        {
+            return LogComponent.GetLog();
+        }
+
+        public void EmbarkPassengers(int amount)
+        {
+            PassengerCartComponent.AddPassengers(amount);
+            WriteLogEntry
+            (
+                $"{amount} passengers embarked train.\n" +
+                $"{GetPassengerAmount()} currently on train."
+            );
+        }
+
+        public void DisembarkPassengers(int amount)
+        {
+            PassengerCartComponent.RemovePassengers(amount);
+            WriteLogEntry
+            (
+                $"{amount} passengers disembarked train.\n" +
+                $"{GetPassengerAmount()} currently on train."
+            );
+        }
+
+        public int GetPassengerAmount()
+        {
+            return PassengerCartComponent.GetPassengerAmount();
         }
     }
 }

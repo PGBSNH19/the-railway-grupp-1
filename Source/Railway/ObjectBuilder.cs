@@ -10,7 +10,7 @@ namespace Railway
         const string stationDataPath = @"DataFiles/stations.txt";
         const string timeTableDataPath = @"DataFiles/timetable.txt";
         const string passengersDataPath = @"DataFiles/passengers.txt";
-        public static List<NewTrain> Trains { get; } = new List<NewTrain>();
+        public static List<Train> Trains { get; } = new List<Train>();
         public static List<Station> Stations { get; } = new List<Station>();
         public static List<TimeTable> TimeTables { get; } = new List<TimeTable>();
         public static List<Passenger> Passengers { get; } = new List<Passenger>();
@@ -34,7 +34,7 @@ namespace Railway
             for (int i = 1; i < trainData.Length; i++)
             {
                 string[] splitline = trainData[i].Split(';', ',', ':');
-                Trains.Add(new NewTrain(
+                Trains.Add(new Train(
                     int.Parse(splitline[0]), 
                     splitline[1], 
                     int.Parse(splitline[2]),

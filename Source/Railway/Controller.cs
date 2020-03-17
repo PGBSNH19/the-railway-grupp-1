@@ -18,13 +18,13 @@ namespace Railway
             clockSim.StartClock();
         }
 
-        public void OperateTrain(NewTrain train)
+        public void OperateTrain(Train train)
         {
             Thread trainThr = new Thread(() => Start(train, timeTable, clockSim));
             trainThr.Start();
         }
 
-        public void Start(NewTrain train, List<TimeTable> timeTable, ClockSimulator clockSim)
+        public void Start(Train train, List<TimeTable> timeTable, ClockSimulator clockSim)
         {
             timeTable = timeTable.Where(x => x.TrainID == train.ID).ToList();
 
