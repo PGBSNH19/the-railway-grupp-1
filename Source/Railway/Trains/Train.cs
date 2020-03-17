@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Railway
 {
-    public class Train
+    public class Train 
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -26,18 +26,26 @@ namespace Railway
             TrainLog.Add("Ready to recieve instructions...");
         }
 
-        
+        public void Start()
+        {
+            IsRunning = true;
+        }
+
+        public void Stop()
+        {
+            IsRunning = false;
+        }
 
         public void Depart()
         {
             AtStationID = -1;
-            IsRunning = true;
+            Start();
         }
 
         public void Arrive(int stationID)
         {
             AtStationID = stationID;
-            IsRunning = false;
+            Stop();
         }
     }
 }
