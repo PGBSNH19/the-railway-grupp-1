@@ -56,7 +56,6 @@ namespace Railway
         }
 
 
-        //!!DOES NOT HANDLE NULL!!
         public static List<TimeTable> TimeTableMapper()
         {
             string[] timeTableData = FetchData(timeTableDataPath);
