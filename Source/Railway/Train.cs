@@ -26,57 +26,18 @@ namespace Railway
             TrainLog.Add("Ready to recieve instructions...");
         }
 
-        public void AddRouteInstruction(List<TimeTable> routes)
-        {
-            foreach (var route in routes)
-            {
-                if (route.TrainID == this.ID)
-                {
-                    if (Routes.Any())
-                    {
-                        Routes.Add(route);
-                    }
-                    else
-                    {
-                        Routes.Add(route);
-                        AtStationID = Routes[0].DepStationID;
-                    }
-                }
-            }
-        }
+        
 
-        private void Depart()
+        public void Depart()
         {
             AtStationID = -1;
             IsRunning = true;
         }
 
-        private void Arrive(int stationID)
+        public void Arrive(int stationID)
         {
             AtStationID = stationID;
             IsRunning = false;
-        }
-
-        public void ExcecuteSingleInstruction(DateTime time)
-        {
-            if (Routes.Any())
-            {
-                if (time.TimeOfDay >= Routes[0].DepartureTime.TimeOfDay && !IsRunning)
-                {
-                    TrainLog.Add($"{time.ToShortTimeString()} : Departing station {AtStationID} for {Routes[0].ArrStationID}.");
-                    Depart();
-                }
-                else if (time.TimeOfDay >= Routes[0].ArrivalTime.TimeOfDay && IsRunning)
-                {
-                    Arrive(Routes[0].ArrStationID);
-                    TrainLog.Add($"{time.ToShortTimeString()} : Arriving at station {AtStationID}.");
-                    Routes.Remove(Routes[0]);
-                }
-            }
-            else
-            {
-                TrainLog.Add("Awaiting further instructions...");
-            }
         }
     }
 }

@@ -25,7 +25,6 @@ namespace Railway
         {
             TrainMapper();
             StationMapper();
-            TimeTableMapper();
             PassengerMapper();
         }
 
@@ -51,14 +50,16 @@ namespace Railway
 
 
         //!!DOES NOT HANDLE NULL!!
-        public static void TimeTableMapper()
+        public static List<TimeTable> TimeTableMapper()
         {
             string[] timeTableData = FetchData(timeTableDataPath);
+            List<TimeTable> timeTable = new List<TimeTable>();
             for (int i = 1; i < timeTableData.Length; i++)
             {
                 string[] splitline = timeTableData[i].Split(';', ',', '|');
-                TimeTables.Add(new TimeTable(int.Parse(splitline[0]), int.Parse(splitline[1]), DateTime.Parse(splitline[2]), int.Parse(splitline[3]), DateTime.Parse(splitline[4])));
+                timeTable.Add(new TimeTable(int.Parse(splitline[0]), int.Parse(splitline[1]), DateTime.Parse(splitline[2]), int.Parse(splitline[3]), DateTime.Parse(splitline[4])));
             }
+            return timeTable;
         }
 
         public static void PassengerMapper()

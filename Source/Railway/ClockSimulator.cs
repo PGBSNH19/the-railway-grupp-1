@@ -13,11 +13,16 @@ namespace Railway
         public int SecondsAddedPerTick { get; set; }
         public int MillisecPerTick { get; set; }
 
-        public ClockSimulator(DateTime setTime, int millisecPerTick, int secondsAddedPerTick = 1)
+        public ClockSimulator(int millisecPerTick, int secondsAddedPerTick = 1, DateTime setTime = new DateTime())
         {
             this.time = setTime;
             this.MillisecPerTick = millisecPerTick;
             this.SecondsAddedPerTick = secondsAddedPerTick;
+        }
+
+        public void SetTime(TimeSpan timeOfDay)
+        {
+            time = time.Date + timeOfDay;
         }
 
         public void StartClock()
@@ -49,9 +54,14 @@ namespace Railway
             IsRunning = false;
         }
 
-        public DateTime GetTime()
+        public DateTime GetDateTime()
         {
             return time;
+        }
+
+        public string TimeToString()
+        {
+            return time.ToShortTimeString();
         }
     }
 }
