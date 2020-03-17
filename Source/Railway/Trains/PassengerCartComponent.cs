@@ -10,7 +10,14 @@ namespace Railway
 
         public PassengerCartComponent(int passengers = 0)
         {
-            passengerAmount = passengers;
+            if (passengers < 0)
+            {
+                passengerAmount = 0;
+            }
+            else
+            {
+                passengerAmount = passengers;
+            }            
         }
 
         public virtual void AddPassengers(int amount)
