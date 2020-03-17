@@ -6,17 +6,26 @@ namespace Railway
 {
     public class NewTrain
     {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int MaxSpeed { get; set; }
+        public bool Operated { get; set; }
+
         private readonly ILogComponent LogComponent;
         private readonly IEngineComponent EngineComponent;
         private readonly IPassengerCartComponent PassengerCartComponent;
 
-        public NewTrain(ILogComponent trainLog, 
+        public NewTrain(int id, string name, int maxSpeed, bool operated, ILogComponent trainLog,
             IEngineComponent engineComponent,
             IPassengerCartComponent passengerCartComponent)
         {
-            LogComponent = trainLog;
-            EngineComponent = engineComponent;
-            PassengerCartComponent = passengerCartComponent;
+            this.ID = id;
+            this.Name = name;
+            this.MaxSpeed = maxSpeed;
+            this.Operated = operated;
+            this.LogComponent = trainLog;
+            this.EngineComponent = engineComponent;
+            this.PassengerCartComponent = passengerCartComponent;
         }
 
         public void StartTrain()

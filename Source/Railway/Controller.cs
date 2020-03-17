@@ -9,79 +9,44 @@ namespace Railway
     //Han heter Carlos 
     public class Controller
     {
+        private ClockSimulator clockSim = new ClockSimulator(100, 60);
         private List<TimeTable> timeTable = ObjectBuilder.TimeTableMapper();
-        public void OperateTrain(int trainID, ClockSimulator clock)
+
+        public Controller()
         {
-            Train train = ObjectBuilder.Trains.First(t => t.ID == trainID);
-            AddRouteInstruction(timeTable, train);
-            Thread trainThr = new Thread(() => StartTrain(train, clock));
+            clockSim.SetTime(new TimeSpan(10, 00, 00));
+            clockSim.StartClock();
+        }
+
+        public void OperateTrain(NewTrain train)
+        {
+            Thread trainThr = new Thread(() => Start(train, timeTable, clockSim));
             trainThr.Start();
         }
 
-        public void StartTrain(Train train, ClockSimulator clockSim)
+        public void Start(NewTrain train, List<TimeTable> timeTable, ClockSimulator clockSim)
         {
-            string lastLogMessage = "";
-           
-            while (train.Routes.Any())
-            {
-                if (train.TrainLog.Last() != lastLogMessage)
-                {
-                    PrintTrainLogToConsole(clockSim.TimeToString(), train.Name, train.TrainLog.Last());
-                    lastLogMessage = train.TrainLog.Last();
-                }
-                ExcecuteSingleInstruction(clockSim.GetDateTime(), train);              
-            }
+            timeTable = timeTable.Where(x => x.TrainID == train.ID).ToList();
 
-            PrintTrainLogToConsole(clockSim.TimeToString(), train.Name, train.TrainLog.Last());
-            ExcecuteSingleInstruction(clockSim.GetDateTime(), train);
-            PrintTrainLogToConsole(clockSim.TimeToString(), train.Name, train.TrainLog.Last());
+            while (timeTable.Any())
+            {
+                if (!train.IsRunning() && timeTable[0].DepartureTime.TimeOfDay <= clockSim.GetDateTime().TimeOfDay)
+                {
+                    train.StartTrain();
+                    Console.WriteLine($"Log {clockSim.TimeToString()} : {train.Name} : departing from {ObjectBuilder.Stations.Find(s => s.ID == timeTable[0].DepStationID).Name} station");
+                }
+                if (train.IsRunning() && timeTable[0].ArrivalTime.TimeOfDay <= clockSim.GetDateTime().TimeOfDay)
+                {
+                    train.StopTrain();
+                    Console.WriteLine($"Log {clockSim.TimeToString()} : {train.Name} : arriving at {ObjectBuilder.Stations.Find(s => s.ID == timeTable[0].ArrStationID).Name} station");
+                    timeTable.Remove(timeTable[0]);
+                }
+            }
         }
 
         public void PrintTrainLogToConsole(string time, string trainName, string logMessage)
         {
-
             Console.WriteLine($"Log {time} : {trainName} : {logMessage}");
-        }
-
-        public void SetWorldTime(ClockSimulator clockSim, TimeSpan time) 
-        {
-            clockSim.SetTime(time);
-        }
-
-            public void ExcecuteSingleInstruction(DateTime time, Train train)
-            {
-            if (train.Routes.Any())
-            {
-                if (time.TimeOfDay >= train.Routes[0].DepartureTime.TimeOfDay && !train.IsRunning)
-                {
-                    train.TrainLog.Add($"{time.ToShortTimeString()} : Departing station {train.AtStationID} for {train.Routes[0].ArrStationID}.");
-                    train.Depart();
-                }
-                else if (time.TimeOfDay >= train.Routes[0].ArrivalTime.TimeOfDay && train.IsRunning)
-                {
-                    train.Arrive(train.Routes[0].ArrStationID);
-                    train.TrainLog.Add($"{time.ToShortTimeString()} : Arriving at station {train.AtStationID}.");
-                    train.Routes.Remove(train.Routes[0]);
-                }
-            }
-            else
-            {
-                train.TrainLog.Add("Awaiting further instructions...");
-            }
-        }
-
-        public void AddRouteInstruction(List<TimeTable> routes, Train train)
-        {
-            foreach (var route in routes)
-            {
-                if (routes.Any() && route.TrainID == train.ID)
-                {
-                    
-                        train.Routes.Add(route);
-                        train.AtStationID = routes[0].DepStationID;
-                    
-                }
-            }
         }
     }
 }

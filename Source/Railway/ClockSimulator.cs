@@ -8,7 +8,7 @@ namespace Railway
     public class ClockSimulator
     {
         private DateTime time;
-        private bool IsRunning = false;
+        private bool isRunning = false;
         public Thread clockRun;
         public int SecondsAddedPerTick { get; set; }
         public int MillisecPerTick { get; set; }
@@ -27,7 +27,7 @@ namespace Railway
 
         public void StartClock()
         {
-            IsRunning = true;
+            isRunning = true;
 
             clockRun = new Thread(RunClock);
             clockRun.Name = "clockRunThread";
@@ -36,7 +36,7 @@ namespace Railway
 
         private void RunClock()
         {
-            while (IsRunning)
+            while (isRunning)
             {
                 IncreaseSeconds(SecondsAddedPerTick);
                 Thread.Sleep(MillisecPerTick);
@@ -51,7 +51,7 @@ namespace Railway
 
         public void StopClock()
         {
-            IsRunning = false;
+            isRunning = false;
         }
 
         public DateTime GetDateTime()
@@ -62,6 +62,11 @@ namespace Railway
         public string TimeToString()
         {
             return time.ToShortTimeString();
+        }
+
+        public bool IsRunning()
+        {
+            return isRunning;
         }
     }
 }
