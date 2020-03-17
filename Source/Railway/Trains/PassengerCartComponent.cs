@@ -20,7 +20,14 @@ namespace Railway
 
         public virtual void RemovePassengers(int amount)
         {
-            passengerAmount -= amount;
+            if (passengerAmount - amount < 0)
+            {
+                passengerAmount = 0;
+            }
+            else
+            {
+                passengerAmount -= amount;
+            }            
         }
 
         public virtual int GetPassengerAmount()

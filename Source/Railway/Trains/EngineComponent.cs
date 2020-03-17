@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Railway
 {
-    class EngineComponent : IEngineComponent
+    public class EngineComponent : IEngineComponent
     {
         private bool isRunning;
 
