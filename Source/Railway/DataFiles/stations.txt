@@ -1,0 +1,8 @@
+Id|StationName|EndStation
+1|Stonecro|true
+2|Mount Juanceo|false
+3|Grand Retro|true
+4|Thielfic-In-Sladeno|false
+5|Svingeln|false
+6|Brunsparken|false
+7|Ostindiegatan|true
